@@ -22,23 +22,27 @@ public static class ProductEndpoints
         group.MapGet("/", GetAllProducts)
             .WithName("GetAllProducts")
             .WithSummary("Get all products")
+            .WithDescription("Retrieves a list of all products in the system")
             .Produces<IEnumerable<ProductDto>>(StatusCodes.Status200OK);
 
         group.MapGet("/{id:int}", GetProductById)
             .WithName("GetProductById")
             .WithSummary("Get a product by ID")
+            .WithDescription("Retrieves a specific product by its unique identifier")
             .Produces<ProductDto>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
 
         group.MapPost("/", CreateProduct)
             .WithName("CreateProduct")
             .WithSummary("Create a new product")
+            .WithDescription("Creates a new product with the provided information. All fields are validated.")
             .Produces<ProductDto>(StatusCodes.Status201Created)
             .Produces<Dictionary<string, string[]>>(StatusCodes.Status400BadRequest);
 
         group.MapPut("/{id:int}", UpdateProduct)
             .WithName("UpdateProduct")
             .WithSummary("Update an existing product")
+            .WithDescription("Updates an existing product. Supports partial updates - only provide the fields you want to change.")
             .Produces<ProductDto>(StatusCodes.Status200OK)
             .Produces<Dictionary<string, string[]>>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
@@ -46,6 +50,7 @@ public static class ProductEndpoints
         group.MapDelete("/{id:int}", DeleteProduct)
             .WithName("DeleteProduct")
             .WithSummary("Delete a product")
+            .WithDescription("Permanently deletes a product from the system")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound);
 
