@@ -1,0 +1,219 @@
+@Minimal_API_Project_Sample_HostAddress = http://localhost:5145
+@Minimal_API_Project_Sample_HostAddress_HTTPS = https://localhost:7016
+
+# ============================================
+# API Information & Health Checks
+# ============================================
+
+### Get API Info (HTTP)
+GET {{Minimal_API_Project_Sample_HostAddress}}/
+Accept: application/json
+
+###
+
+### Get API Info (HTTPS)
+GET {{Minimal_API_Project_Sample_HostAddress_HTTPS}}/
+Accept: application/json
+
+###
+
+### Health Check (HTTP)
+GET {{Minimal_API_Project_Sample_HostAddress}}/health
+
+###
+
+### Health Check (HTTPS)
+GET {{Minimal_API_Project_Sample_HostAddress_HTTPS}}/health
+
+###
+
+# ============================================
+# Product - GET Operations
+# ============================================
+
+### Get All Products (HTTP)
+GET {{Minimal_API_Project_Sample_HostAddress}}/api/products
+Accept: application/json
+
+###
+
+### Get All Products (HTTPS)
+GET {{Minimal_API_Project_Sample_HostAddress_HTTPS}}/api/products
+Accept: application/json
+
+###
+
+### Get Product by ID (HTTP)
+GET {{Minimal_API_Project_Sample_HostAddress}}/api/products/1
+Accept: application/json
+
+###
+
+### Get Product by ID (HTTPS)
+GET {{Minimal_API_Project_Sample_HostAddress_HTTPS}}/api/products/1
+Accept: application/json
+
+###
+
+### Get Non-Existent Product (404 - HTTP)
+GET {{Minimal_API_Project_Sample_HostAddress}}/api/products/999
+Accept: application/json
+
+###
+
+# ============================================
+# Product - POST Operations (Create)
+# ============================================
+
+### Create Product (HTTP)
+POST {{Minimal_API_Project_Sample_HostAddress}}/api/products
+Content-Type: application/json
+
+{
+  "name": "Gaming Monitor",
+  "description": "27-inch 144Hz gaming monitor with HDR",
+  "price": 349.99,
+  "stock": 20
+}
+
+###
+
+### Create Product (HTTPS)
+POST {{Minimal_API_Project_Sample_HostAddress_HTTPS}}/api/products
+Content-Type: application/json
+
+{
+  "name": "Wireless Keyboard",
+  "description": "Compact wireless keyboard with backlight",
+  "price": 59.99,
+  "stock": 35
+}
+
+###
+
+### Create Product - Validation Test (Should Fail)
+POST {{Minimal_API_Project_Sample_HostAddress}}/api/products
+Content-Type: application/json
+
+{
+  "name": "",
+  "description": "This should fail validation",
+  "price": -10,
+  "stock": -5
+}
+
+###
+
+# ============================================
+# Product - PUT Operations (Update)
+# ============================================
+
+### Update Product - Full Update (HTTP)
+PUT {{Minimal_API_Project_Sample_HostAddress}}/api/products/1
+Content-Type: application/json
+
+{
+  "name": "Laptop - Updated",
+  "description": "High-performance laptop for developers - Now with 32GB RAM",
+  "price": 1199.99,
+  "stock": 10
+}
+
+###
+
+### Update Product - Partial Update (Price and Stock only)
+PUT {{Minimal_API_Project_Sample_HostAddress}}/api/products/2
+Content-Type: application/json
+
+{
+  "price": 24.99,
+  "stock": 75
+}
+
+###
+
+### Update Product - Validation Test (Should Fail)
+PUT {{Minimal_API_Project_Sample_HostAddress}}/api/products/1
+Content-Type: application/json
+
+{
+  "price": -50
+}
+
+###
+
+### Update Non-Existent Product (404)
+PUT {{Minimal_API_Project_Sample_HostAddress}}/api/products/999
+Content-Type: application/json
+
+{
+  "name": "This will fail",
+  "price": 99.99
+}
+
+###
+
+# ============================================
+# Product - DELETE Operations
+# ============================================
+
+### Delete Product (HTTP)
+DELETE {{Minimal_API_Project_Sample_HostAddress}}/api/products/10
+
+###
+
+### Delete Product (HTTPS)
+DELETE {{Minimal_API_Project_Sample_HostAddress_HTTPS}}/api/products/9
+
+###
+
+### Delete Non-Existent Product (404)
+DELETE {{Minimal_API_Project_Sample_HostAddress}}/api/products/999
+
+###
+
+# ============================================
+# Testing Sequences
+# ============================================
+
+### Test Sequence 1: Create, Read, Update, Delete
+# Step 1: Create a new product
+POST {{Minimal_API_Project_Sample_HostAddress}}/api/products
+Content-Type: application/json
+
+{
+  "name": "Test Product",
+  "description": "Product for testing CRUD operations",
+  "price": 99.99,
+  "stock": 10
+}
+
+###
+
+# Step 2: Get the created product (use ID from response above)
+GET {{Minimal_API_Project_Sample_HostAddress}}/api/products/11
+Accept: application/json
+
+###
+
+# Step 3: Update the product
+PUT {{Minimal_API_Project_Sample_HostAddress}}/api/products/11
+Content-Type: application/json
+
+{
+  "price": 79.99,
+  "stock": 5
+}
+
+###
+
+# Step 4: Delete the product
+DELETE {{Minimal_API_Project_Sample_HostAddress}}/api/products/11
+
+###
+
+# Step 5: Verify deletion (should return 404)
+GET {{Minimal_API_Project_Sample_HostAddress}}/api/products/11
+Accept: application/json
+
+###

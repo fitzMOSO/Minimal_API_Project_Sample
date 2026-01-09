@@ -1,0 +1,40 @@
+services:
+  minimal-api-project-sample:
+    image: minimal-api-project-sample
+    container_name: minimal-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5145:5145"   # HTTP
+      - "7016:7016"   # HTTPS
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5145
+      - ASPNETCORE_HTTPS_PORTS=7016
+      # For production, use connection string to external SQL Server
+      # - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=Minimal_API_DB;User Id=sa;Password=YourPassword;TrustServerCertificate=True
+    networks:
+      - minimal-api-network
+
+  # Optional: Uncomment to add SQL Server container for production Docker deployment
+  # sqlserver:
+  #   image: mcr.microsoft.com/mssql/server:2022-latest
+  #   container_name: minimal-api-sqlserver
+  #   environment:
+  #     - ACCEPT_EULA=Y
+  #     - SA_PASSWORD=YourStrongPassword123!
+  #     - MSSQL_PID=Express
+  #   ports:
+  #     - "1433:1433"
+  #   volumes:
+  #     - sqlserver-data:/var/opt/mssql
+  #   networks:
+  #     - minimal-api-network
+
+networks:
+  minimal-api-network:
+    driver: bridge
+
+# volumes:
+#   sqlserver-data:
